@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Landing Page with Dark Mode</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        // Configure dark mode strategy
+        tailwind.config = {
+            darkMode: 'class', // Enable dark mode using class strategy
+        };
+
+        // Load theme on page load
+        if (localStorage.getItem('color-theme') === 'dark' || 
+            (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+        } else {
+            document.documentElement.classList.remove('dark');
+        }
+    </script>
+</head>
+<body class="bg-gray-100 dark:bg-gray-900 text-gray-800 dark:text-gray-200">
+
+    <div class="flex flex-col items-center justify-center min-h-screen">
+        <h1 class="text-4xl font-bold mb-4">Welcome to Our Landing Page</h1>
+        <p class="mb-8">This is a simple landing page with dark mode functionality.</p>
+        
+        <button id="theme-toggle" class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 dark:bg-blue-700 dark:hover:bg-blue-800">
+            Toggle Dark Mode
+        </button>
+    </div>
+
+    <script>
+        // Script to toggle dark mode
+        const themeToggleBtn = document.getElementById("theme-toggle");
+        const themeToggleDarkIcon = document.createElement("span");
+        const themeToggleLightIcon = document.createElement("span");
+
+        themeToggleDarkIcon.innerHTML = "🌙"; // Dark mode icon
+        themeToggleLightIcon.innerHTML = "☀️"; // Light mode icon
+
+        // Change the button icon based on the current theme
+        if (localStorage.getItem("color-theme") === "dark") {
+            themeToggleBtn.appendChild(themeToggleLightIcon);
+        } else {
+            themeToggleBtn.appendChild(themeToggleDarkIcon);
+        }
+
+        themeToggleBtn.addEventListener("click", function () {
+            // Toggle dark mode
+            document.documentElement.classList.toggle("dark");
+            if (document.documentElement.classList.contains("dark")) {
+                localStorage.setItem("color-theme", "dark");
+                themeToggleBtn.innerHTML = ""; // Clear existing icons
+                themeToggleBtn.appendChild(themeToggleLightIcon);
+            } else {
+                localStorage.setItem("color-theme", "light");
+                themeToggleBtn.innerHTML = ""; // Clear existing icons
+                themeToggleBtn.appendChild(themeToggleDarkIcon);
+            }
+        });
+    </script>
+</body>
+</html>
